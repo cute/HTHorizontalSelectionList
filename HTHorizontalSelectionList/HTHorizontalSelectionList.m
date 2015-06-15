@@ -302,20 +302,37 @@ static NSString *ViewCellIdentifier = @"ViewCell";
                                                                                                          inSection:0]];
 
     [self layoutIfNeeded];
-    [UIView animateWithDuration:animated ? 0.4 : 0.0
-                          delay:0
-         usingSpringWithDamping:[self selectionIndicatorBarSpringDamping]
-          initialSpringVelocity:0
-                        options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-                         [self setupSelectedCell:selectedCell oldSelectedCell:oldSelectedCell];
-                     }
-                     completion:nil];
+
+    if (self.centerAlignSelectedButton) {
+        [self setupSelectedCell:selectedCell oldSelectedCell:oldSelectedCell];
+    }else{
+        [UIView animateWithDuration:animated ? 0.4 : 0.0
+                              delay:0
+             usingSpringWithDamping:[self selectionIndicatorBarSpringDamping]
+              initialSpringVelocity:0
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^{
+                             [self setupSelectedCell:selectedCell oldSelectedCell:oldSelectedCell];
+                         }
+                         completion:nil];
+    }
 
     if (selectedCell) {
-        [self.collectionView scrollRectToVisible:CGRectInset(selectedCell.frame, -kHTHorizontalSelectionListHorizontalMargin, 0)
-                                        animated:animated];
+        if (self.centerAlignSelectedButton) {
+            CGFloat pointX = CGRectGetMaxX(selectedCell.frame) - CGRectGetWidth(selectedCell.frame)/2.0 - CGRectGetWidth(self.collectionView.frame)/2.0;
+            CGFloat maxPointX = self.collectionView.contentSize.width - CGRectGetWidth(self.collectionView.frame);
+            if (pointX < kHTHorizontalSelectionListHorizontalMargin) {
+                pointX = 0;
+            }else if(pointX > maxPointX){
+                pointX = maxPointX;
+            }
+            [self.collectionView setContentOffset:CGPointMake(pointX, 0) animated:animated];
+        }else{
+            [self.collectionView scrollRectToVisible:CGRectInset(selectedCell.frame, -kHTHorizontalSelectionListHorizontalMargin, 0)
+                                            animated:animated];
+        }
     }
+
 }
 
 #pragma mark - UICollectionViewDataSource Protocol Methods

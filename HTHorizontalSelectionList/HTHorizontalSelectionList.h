@@ -48,6 +48,8 @@ typedef NS_ENUM(NSInteger, HTHorizontalSelectionIndicatorAnimationMode) {
 
 @property (nonatomic) HTHorizontalSelectionIndicatorStyle selectionIndicatorStyle;
 
+@property (nonatomic) BOOL centerAlignSelectedButton;
+
 - (void)setTitleColor:(UIColor *)color forState:(UIControlState)state;
 - (void)setTitleFont:(UIFont *)font forState:(UIControlState)state;
 
