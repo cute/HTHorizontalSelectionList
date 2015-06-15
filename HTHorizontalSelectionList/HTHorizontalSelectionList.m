@@ -319,7 +319,7 @@ static NSString *ViewCellIdentifier = @"ViewCell";
 
     if (selectedCell) {
         if (self.centerAlignSelectedButton) {
-            CGFloat pointX = CGRectGetMaxX(selectedCell.frame) - CGRectGetWidth(selectedCell.frame)/2.0 - CGRectGetWidth(self.collectionView.frame)/2.0;
+            CGFloat pointX = CGRectGetMidX(selectedCell.frame) - CGRectGetWidth(self.collectionView.frame)/2.0;
             CGFloat maxPointX = self.collectionView.contentSize.width - CGRectGetWidth(self.collectionView.frame);
             if (pointX < kHTHorizontalSelectionListHorizontalMargin) {
                 pointX = 0;
